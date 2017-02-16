@@ -1,0 +1,49 @@
+*** Submission sources ***
+
+The folders submission_XXX contain the code of each submission, and a file submission_XXX.info with the following information:
+	submission number
+	final rank
+	topcoder user handle
+	provisional rank
+	provisional score
+	final score
+	code language
+	topcoder user id
+
+*** How to build & run ***
+
+The script make_subs.sh build all the solutions:
+	C++: an executable submission_XXX.run is built in the bin/ directory
+		USAGE: submission_XXX.run economies_file.csv shocks_file.csv output_file.csv
+	Java: a submission_XXX.jar is created in the bin/ directory
+		USAGE: java -jar submission_XXX.jar -eco economies_file.csv -shocks shocks_file.csv -out output_file.csv
+	MATLAB: a function file run_simu.m is copied in the directory submission_XXX, next to the function files ConsumptionDecisionRule.m and SetEconomyParameters.m
+		USAGE: run_simu('economies_file.csv', 'shocks_file.csv', 'output_file.csv');
+When a solution is launched, the CSV file output_file.csv is generated with the following format:
+	# Economy_id, simulation_id, period, C, Z, K, EulerResidual
+A log file is also created with the score of the solution on each test case:
+	# Economy_id, score
+IMPORTANT:
+	Economy_id is 0-based (0-95)
+	simulation_id is 0-based (0-49)
+	period is 0-based (0-2000)
+	EulerResidual is computed for every period, except period=2000 where the field is left empty
+	EulerResidual can be nan valued
+
+*** How to run all the solutions ***
+
+The script run_subs.sh allows to run all the solutions. The economies and shocks files can be set inside the script. The default ones are in the data/ directory.
+	USAGE:	./run_subs.sh
+			runs all the solutions
+		./run_subs.sh sub_id
+			runs only solution sub_id
+The output files are created in the output/ directory.
+
+*** Remarks ***
+
+I had to slightly modify some solutions in order to make them not fail because they relied on N=200:
+	submission_003: 199 was hardcoded at line 173
+	submission_004: Np was hardcoded to 180 at line 34, I set it to 0.8*N
+I included a cleaner version of my solution, as explained in my report.
+I have translated the C# sources into C++ to use the same simulator code.
+
